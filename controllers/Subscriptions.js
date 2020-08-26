@@ -25,6 +25,27 @@ module.exports = {
             })
         }
     },
+    detail : (req,res) => {
+        const {id} = req.params;
+        Subscriptions.findOne({
+            '_id': id
+        })
+        .populate('id_user', "-password")
+        .then(result => {
+            res.status(200).send({
+                message: "Get data user",
+                status: 200,
+                result
+            })
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500).send({
+                message: "Internal server error",
+                status: 500,
+            })
+        })
+    },
     addOne: async (req, res) => {
         try {
             const {id_user, status} = req.body

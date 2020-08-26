@@ -26,6 +26,29 @@ module.exports = {
             })
         }
     },
+    detail : (req,res) => {
+        const {id} = req.params;
+        HistoryWatch.findOne({
+            '_id': id
+        })
+        .populate({path:'id_user', select: 'username fullname' })
+        .populate({ path: 'id_movie', select: 'title url_trailer'})
+        .populate({ path:'id_subscriptions', select: '_id'})
+        .then(result => {
+            res.status(200).send({
+                message: "Get data user",
+                status: 200,
+                result
+            })
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500).send({
+                message: "Internal server error",
+                status: 500,
+            })
+        })
+    },
     createOne: async (req, res) => {
         try {
             const {id_movie, id_user, id_subscriptions} = req.body
@@ -49,5 +72,26 @@ module.exports = {
         catch(error) {
             console.log(error);
         }
+    },
+    deleteHistory : (req, res) => {
+        const {id} = req.params;
+        HistoryWatch.deleteOne(
+            {
+                _id : id
+            },
+            (error, result) => {
+                if(error){
+                    res.send({
+                        message: "error"
+                    })
+                }
+                else {
+                    res.send({
+                        message: "success",
+                        result
+                    })
+                }
+            }
+        )
     }
 }

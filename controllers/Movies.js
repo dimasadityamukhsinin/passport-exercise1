@@ -23,6 +23,26 @@ module.exports = {
       
         
     },
+    detail : (req,res) => {
+        const {id} = req.params;
+        Movies.findOne({
+            '_id': id
+        })
+        .then(result => {
+            res.status(200).send({
+                message: "Get data user",
+                status: 200,
+                result
+            })
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500).send({
+                message: "Internal server error",
+                status: 500,
+            })
+        })
+    },
     addOne: async (req, res) => {
         try {
             const {title, year, genre, description,url_trailer} = req.body
@@ -47,5 +67,45 @@ module.exports = {
         console.log(error)
     }
         
+    },
+    update : (req, res) => {
+        const {id} = req.params;
+        Movies.findOneAndUpdate(
+            { _id : id}, 
+                req.body
+            , (error, result) => {
+                if(error){
+                    res.send({
+                        message: "error"
+                    })
+                }
+                else {
+                    res.send({
+                        message: "success",
+                    })
+                }
+            }
+        )
+    },
+    deleteMovies : (req, res) => {
+        const {id} = req.params;
+        Movies.deleteOne(
+            {
+                _id : id
+            },
+            (error, result) => {
+                if(error){
+                    res.send({
+                        message: "error"
+                    })
+                }
+                else {
+                    res.send({
+                        message: "success",
+                        result
+                    })
+                }
+            }
+        )
     }
 }
