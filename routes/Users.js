@@ -2,6 +2,7 @@ const express = require('express')
 const route = express.Router();
 
 const {
+    login,
     getAllData,
     addOne,
     detail,
@@ -9,6 +10,7 @@ const {
     deleteUser
 } = require('../controllers/Users')
 
+route.post('/users/login', login)
 route.get('/users', getAllData)
 route.post('/users/register', addOne)
 route.get('/users/:id', detail)

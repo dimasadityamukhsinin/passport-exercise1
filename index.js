@@ -3,9 +3,10 @@ const db = require('./config/db');
 const bodyParser = require('body-parser')
 
 const userRouter = require('./routes/Users')
-const movieRouter = require('./routes/Movies')
-const subsRouter = require('./routes/Subscriptions')
-const historyRouter = require('./routes/HistoryWatch')
+const productRouter = require('./routes/Products')
+const pImageRouter = require('./routes/Product_images')
+const cartRouter = require('./routes/Carts')
+const transactionRouter = require('./routes/Transactions')
 
 const app = express()
 
@@ -18,9 +19,10 @@ app.get('/', (req, res) => {
 })
 
 app.use('/', userRouter)
-app.use('/', movieRouter)
-app.use('/', subsRouter)
-app.use('/', historyRouter)
+app.use('/', productRouter)
+app.use('/', pImageRouter)
+app.use('/', cartRouter)
+app.use('/', transactionRouter)
 
 db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', () => console.log('we re connected'));

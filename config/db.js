@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 
-const url= "mongodb://127.0.0.1:27017/netpliks";
+const url= "mongodb+srv://dimasadityamukhsinin:fevidi12xq38@impactbyte.nzc2o.mongodb.net/impact_store";
 // const database = "impactbyte";
 
 mongoose.connect(url, {

@@ -1,43 +1,9 @@
-const Users = require('../Models/Users');
-const users = require('../../sql-exercise2/controller/users');
-const {createToken} = require('../helpers/token');
+const Products = require('../Models/Products');
 
 module.exports = {
-    login: async (req, res) => {
-        try {
-            // find one
-            const registeredUser = await Users.findOne({email: req.body.email}) // sukses : obj / gagal: null
-            // check password
-            if(registeredUser.password === req.body.password){
-                const dataUser = {
-                    id: registeredUser._id,
-                    username: registeredUser.username,
-                    email: registeredUser.email
-                }
-                // user login => kasih token
-                const token = createToken(dataUser)
-                console.log(token)
-
-                res.status(200).json({
-                    message: "Selamat datang",
-                    token,
-                    user: dataUser
-                })
-            } else {
-                res.status(400).json({
-                    message: "Password Salah"
-                })
-            }
-        }
-        catch(error) {
-            console.log(error)
-            res.status(500).json({
-                message: "Internal Server Error"
-            })
-        }
-    },
     getAllData : (req, res) => {
-        Users.find()
+        Products.find()
+        .populate({path : 'images', select: '-_id'})
         .then(result => {
             res.send({
                 message: 'get All data',
@@ -53,7 +19,7 @@ module.exports = {
     },
     detail : (req,res) => {
         const {id} = req.params;
-        Users.findOne({
+        Products.findOne({
             '_id': id
         })
         .then(result => {
@@ -72,14 +38,12 @@ module.exports = {
         })
     },
     addOne: (req, res) => {
-        const {fullname, username, email, phone, password, address } = req.body
-        Users.create({
-            fullname,
-            username,
-            email,
-            phone,
-            password,
-            address
+        const {product_name, description, stock, price } = req.body
+        Products.create({
+            product_name,
+            description,
+            stock,
+            price
         }, (error, result) => {
             if(error){
                 res.send({
@@ -89,7 +53,7 @@ module.exports = {
             }
             else {
                 res.send({
-                    message: "success add user", 
+                    message: "success add product", 
                     result
                 })
             }
@@ -97,7 +61,7 @@ module.exports = {
     },
     update : (req, res) => {
         const {id} = req.params;
-        Users.findOneAndUpdate(
+        Products.findOneAndUpdate(
             { _id : id}, 
                 req.body
             , (error, result) => {
@@ -108,15 +72,15 @@ module.exports = {
                 }
                 else {
                     res.send({
-                        message: "success",
+                        message: "success update",
                     })
                 }
             }
         )
     },
-    deleteUser : (req, res) => {
+    deleteProduct : (req, res) => {
         const {id} = req.params;
-        Users.deleteOne(
+        Products.deleteOne(
             {
                 _id : id
             },

@@ -1,31 +1,26 @@
-const Movies = require('../Models/Movies');
+const PImages = require('../Models/Product_images');
+const Products = require('../Models/Products');
 
 module.exports = {
-    getAllData : async (req, res) => {
-        try {
-            const movies = await Movies.find()
-            if(movies){
-                res.status(200).json({
-                    message: 'Success to get All data',
-                    movies
-                })
-            } else {
-                res.status(400).json({
-                    message: 'Failed to get all data'
-                })
-            }
-        }
-        catch(error){
-            res.status(500).json({
-                message: 'Internal Server Error'
+    getAllData : (req, res) => {
+        PImages.find()
+        .populate('id_product')
+        .then(result => {
+            res.send({
+                message: 'get All data',
+                result
             })
-        }
-      
-        
+        })
+        .catch(error => {
+            console.log(error)
+            res.send({
+                message: 'failed'
+            })
+        })
     },
     detail : (req,res) => {
         const {id} = req.params;
-        Movies.findOne({
+        PImages.findOne({
             '_id': id
         })
         .then(result => {
@@ -43,34 +38,31 @@ module.exports = {
             })
         })
     },
-    addOne: async (req, res) => {
+    addOne : async (req, res) => {
         try {
-            const {title, year, genre, description,url_trailer} = req.body
-        const newMovies = await Movies.create({
-            title,
-            year,
-            genre,
-            description,
-            url_trailer
-        })
-        if(newMovies) {
-            res.send({
-                message: 'success',
-                newMovies,
-            })
-        } else {
-            res.send({
-                message: 'error',
+           const data = await PImages.create(
+              {...req.body}
+           );
+           const product = await Products.findOneAndUpdate(
+               {_id: req.body.id_product},
+               {$push: {images: data._id}},
+               { new: true}
+           )
+           res.status(200).send({
+            message: "success",
+            product
+          })
+        }
+        catch(error){
+            console.log(error);
+            res.status(500).json({
+                message: "Internal server error, please try again later",
             })
         }
-    } catch (error) {
-        console.log(error)
-    }
-        
     },
     update : (req, res) => {
         const {id} = req.params;
-        Movies.findOneAndUpdate(
+        PImages.findOneAndUpdate(
             { _id : id}, 
                 req.body
             , (error, result) => {
@@ -81,15 +73,15 @@ module.exports = {
                 }
                 else {
                     res.send({
-                        message: "success",
+                        message: "success update",
                     })
                 }
             }
         )
     },
-    deleteMovies : (req, res) => {
+    deletePImage : (req, res) => {
         const {id} = req.params;
-        Movies.deleteOne(
+        PImages.deleteOne(
             {
                 _id : id
             },
