@@ -12,8 +12,8 @@ const {
 
 route.get('/cart', verifyToken, getAllData)
 route.post('/cart', verifyToken, addOne)
-route.get('/cart/:id', detail)
-route.put('/cart/:id', update)
-route.delete('/cart/delete/:id', deleteCart)
+route.get('/cart/:id', verifyToken, detail)
+route.put('/cart/:id', verifyToken, update)
+route.delete('/cart/delete/:id', verifyToken, deleteCart)
 
 module.exports = route

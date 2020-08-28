@@ -34,7 +34,7 @@ module.exports = {
         .populate('id_product')
         .then(result => {
             res.status(200).send({
-                message: "Get data user",
+                message: "Get data",
                 status: 200,
                 result
             })

@@ -1,4 +1,5 @@
 const express = require('express')
+const {verifyToken} = require('../helpers/token');
 const route = express.Router();
 
 const {
@@ -15,6 +16,6 @@ route.get('/users', getAllData)
 route.post('/users/register', addOne)
 route.get('/users/:id', detail)
 route.put('/users/:id', update)
-route.delete('/users/:id', deleteUser)
+route.delete('/users/:id', verifyToken, deleteUser)
 
 module.exports = route

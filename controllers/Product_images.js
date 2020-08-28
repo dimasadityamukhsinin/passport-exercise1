@@ -4,7 +4,7 @@ const Products = require('../Models/Products');
 module.exports = {
     getAllData : (req, res) => {
         PImages.find()
-        .populate('id_product')
+        .populate('id_product', '-images')
         .then(result => {
             res.send({
                 message: 'get All data',
@@ -23,6 +23,7 @@ module.exports = {
         PImages.findOne({
             '_id': id
         })
+        .populate('id_product', '-images')
         .then(result => {
             res.status(200).send({
                 message: "Get data user",
@@ -74,6 +75,7 @@ module.exports = {
                 else {
                     res.send({
                         message: "success update",
+                        result
                     })
                 }
             }

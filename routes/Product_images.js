@@ -14,6 +14,6 @@ route.get('/product_images', getAllData)
 route.post('/product_images', verifyToken, addOne)
 route.get('/product_images/:id', detail)
 route.put('/product_images/:id', update)
-route.delete('/product_images/delete/:id', deletePImage)
+route.delete('/product_images/delete/:id', verifyToken, deletePImage)
 
 module.exports = route

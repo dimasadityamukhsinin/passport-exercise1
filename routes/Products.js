@@ -14,6 +14,6 @@ route.get('/product', getAllData)
 route.get('/product/:id', detail)
 route.post('/product', verifyToken, addOne)
 route.put('/product/:id', update)
-route.delete('/product/delete/:id', deleteProduct)
+route.delete('/product/delete/:id', verifyToken, deleteProduct)
 
 module.exports = route

@@ -12,6 +12,6 @@ const {
 route.get('/transaction', verifyToken, getAll)
 route.get('/transaction/:id', verifyToken, detail)
 route.post('/transaction', verifyToken, createOne)
-route.put('/transaction/:id', update)
+route.put('/transaction/:id', verifyToken, update)
 
 module.exports = route
