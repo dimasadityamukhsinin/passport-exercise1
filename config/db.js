@@ -1,10 +1,8 @@
 const mongoose = require('mongoose')
+require('dotenv').config()
 
 
-const url= "mongodb+srv://dimasadityamukhsinin:fevidi12xq38@impactbyte.nzc2o.mongodb.net/impact_store";
-// const database = "impactbyte";
-
-mongoose.connect(url, {
+mongoose.connect(process.env.DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false

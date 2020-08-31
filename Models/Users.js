@@ -1,20 +1,25 @@
 const mongoose = require('mongoose');
-
+const findOrCreate = require('mongoose-findorcreate');
 
 const Schema = mongoose.Schema
 
 const userSchema = new Schema({
+    provider : {
+        type: String,
+        required: false
+    },
+    providerId: {
+        type: String,
+        required: false
+    },
     fullname: {
         type: String,
-        required: true
     },
     username: {
         type: String,
-        required: true
     },
     email: {
         type: String,
-        required: true
     },
     phone: {
         type: String,
@@ -22,13 +27,13 @@ const userSchema = new Schema({
     },
     password: {
         type: String,
-        required: true
     },
     address : {
         type: String,
-        required: true
     }
 }, {timestamps:true})
+
+userSchema.plugin(findOrCreate);
 
 const Users = mongoose.model('users', userSchema)
 
