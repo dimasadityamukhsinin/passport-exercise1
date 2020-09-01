@@ -49,6 +49,6 @@ app.get('/auth/google/callback', passport.authenticate('google'),
 db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', () => console.log('we re connected'));
 
-app.listen(process.env.PORT, ()=> {
+app.listen(process.env.PORT || 3000, ()=> {
     console.log('connected')
 })
